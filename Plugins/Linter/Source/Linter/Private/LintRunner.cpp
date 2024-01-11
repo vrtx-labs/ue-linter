@@ -51,6 +51,8 @@ bool FLintRunner::Init()
 
 uint32 FLintRunner::Run()
 {	
+	FTaskTagScope LintRunScope(ETaskTag::EParallelRenderingThread);
+
 	if (LoadedObject == nullptr || pLoadedRuleList == nullptr || RuleSet == nullptr || pOutRuleViolations == nullptr)
 	{
 		return 2;
