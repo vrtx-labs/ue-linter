@@ -6,9 +6,9 @@
 #include "LevelEditor.h"
 #include "Widgets/Input/SButton.h"
 #include "Styling/SlateStyle.h"
-#include "AssetRegistryModule.h"
-#include "IAssetRegistry.h"
-#include "AssetData.h"
+#include "AssetRegistry/AssetRegistryModule.h"
+#include "AssetRegistry/IAssetRegistry.h"
+#include "AssetRegistry/AssetData.h"
 #include "ContentBrowserModule.h"
 #include "PropertyEditorModule.h"
 
@@ -103,9 +103,9 @@ TSharedRef<SDockTab> FLinterModule::SpawnTab(const FSpawnTabArgs& TabSpawnArgs, 
 
 	const TSharedRef<SDockTab> MajorTab =
 		SNew(SDockTab)
-		.Icon(IconBrush)
 		.TabRole(ETabRole::MajorTab);
 
+	MajorTab->SetTabIcon(IconBrush);
 	MajorTab->SetContent(SNew(SLintWizard));
 
 	return MajorTab;
@@ -122,7 +122,7 @@ void FLinterModule::TryToLoadAllLintRuleSets()
 	IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
 
 	TArray<FAssetData> FoundRuleSets;
-	AssetRegistry.GetAssetsByClass(ULintRuleSet::StaticClass()->GetFName(), FoundRuleSets, true);
+	AssetRegistry.GetAssetsByClass(ULintRuleSet::StaticClass()->GetClassPathName(), FoundRuleSets, true);
 
 	// Attempt to get all RuleSets in memory so that linting tools are better aware of them
 	for (const FAssetData& RuleSetData : FoundRuleSets)

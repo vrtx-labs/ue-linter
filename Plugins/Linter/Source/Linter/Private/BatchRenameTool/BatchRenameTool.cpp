@@ -34,7 +34,7 @@ FDlgBatchRenameTool::FDlgBatchRenameTool(const TArray<FAssetData> Assets)
 
 		TSharedPtr<SBorder> DialogWrapper =
 			SNew(SBorder)
-			.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+			.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 			.Padding(4.0f)
 			[
 				SAssignNew(DialogWidget, SDlgBatchRenameTool)
@@ -74,7 +74,7 @@ FDlgBatchRenameTool::EResult FDlgBatchRenameTool::ShowModal()
 			const FAssetData& Asset = *AssetIt;
 
 			// Early out on assets that can not be renamed
-			if (!(!Asset.IsRedirector() && Asset.AssetClass != NAME_Class && !(Asset.PackageFlags & PKG_FilterEditorOnly)))
+			if (!(!Asset.IsRedirector() && Asset.AssetClassPath != UClass::StaticClass()->GetClassPathName() && !(Asset.PackageFlags & PKG_FilterEditorOnly)))
 			{
 				continue;
 			}
@@ -289,14 +289,14 @@ void SDlgBatchRenameTool::Construct(const FArguments& InArgs)
 		.Padding(8.0f, 4.0f, 8.0f, 4.0f)
 		[
 			SNew(SUniformGridPanel)
-			.SlotPadding(FEditorStyle::GetMargin("StandardDialog.SlotPadding"))
-			.MinDesiredSlotWidth(FEditorStyle::GetFloat("StandardDialog.MinDesiredSlotWidth"))
-			.MinDesiredSlotHeight(FEditorStyle::GetFloat("StandardDialog.MinDesiredSlotHeight"))
+			.SlotPadding(FAppStyle::GetMargin("StandardDialog.SlotPadding"))
+			.MinDesiredSlotWidth(FAppStyle::GetFloat("StandardDialog.MinDesiredSlotWidth"))
+			.MinDesiredSlotHeight(FAppStyle::GetFloat("StandardDialog.MinDesiredSlotHeight"))
 			+ SUniformGridPanel::Slot(0, 0)
 			[
 				SNew(SButton)
 				.HAlign(HAlign_Center)
-				.ContentPadding(FEditorStyle::GetMargin("StandardDialog.ContentPadding"))
+				.ContentPadding(FAppStyle::GetMargin("StandardDialog.ContentPadding"))
 				.OnClicked(this, &SDlgBatchRenameTool::OnButtonClick, FDlgBatchRenameTool::Confirm)
 				.Text(LOCTEXT("SkeletonMergeOk", "OK"))
 			]
@@ -304,7 +304,7 @@ void SDlgBatchRenameTool::Construct(const FArguments& InArgs)
 			[
 				SNew(SButton)
 				.HAlign(HAlign_Center)
-				.ContentPadding(FEditorStyle::GetMargin("StandardDialog.ContentPadding"))
+				.ContentPadding(FAppStyle::GetMargin("StandardDialog.ContentPadding"))
 				.OnClicked(this, &SDlgBatchRenameTool::OnButtonClick, FDlgBatchRenameTool::Cancel)
 				.Text(LOCTEXT("SkeletonMergeCancel", "Cancel"))
 			]

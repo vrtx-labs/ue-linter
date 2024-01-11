@@ -3,9 +3,9 @@
 
 #include "CoreGlobals.h"
 #include "Delegates/Delegate.h"
-#include "AssetRegistryModule.h"
-#include "IAssetRegistry.h"
-#include "AssetData.h"
+#include "AssetRegistry/AssetRegistryModule.h"
+#include "AssetRegistry/IAssetRegistry.h"
+#include "AssetRegistry/AssetData.h"
 #include "SlateOptMacros.h"
 #include "Widgets/Layout/SSeparator.h"
 #include "Widgets/Views/SListView.h"
@@ -44,7 +44,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 	IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
 
 	TArray<FAssetData> FoundRuleSets;
-	AssetRegistry.GetAssetsByClass(ULintRuleSet::StaticClass()->GetFName(), FoundRuleSets, true);
+	AssetRegistry.GetAssetsByClass(ULintRuleSet::StaticClass()->GetClassPathName(), FoundRuleSets, true);
 
 	// Attempt to get all RuleSets in memory so that linting tools are better aware of them
 	for (const FAssetData& RuleSetData : FoundRuleSets)
@@ -71,7 +71,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 	[
 		SNew(SBorder)
 		.Padding(18)
-		.BorderImage(FEditorStyle::GetBrush("Docking.Tab.ContentAreaBrush"))
+		.BorderImage(FAppStyle::GetBrush("Docking.Tab.ContentAreaBrush"))
 		[
 			SNew(SVerticalBox)
 			+ SVerticalBox::Slot()
@@ -79,10 +79,10 @@ void SLintWizard::Construct(const FArguments& InArgs)
 				SAssignNew(MainWizard, SWizard)
 				.ShowPageList(false)
 				.ShowCancelButton(false)
-				.ButtonStyle(FEditorStyle::Get(), "FlatButton.Default")
-				.CancelButtonStyle(FEditorStyle::Get(), "FlatButton.Default")
-				.FinishButtonStyle(FEditorStyle::Get(), "FlatButton.Success")
-				.ButtonTextStyle(FEditorStyle::Get(), "LargeText")
+				.ButtonStyle(FAppStyle::Get(), "FlatButton.Default")
+				.CancelButtonStyle(FAppStyle::Get(), "FlatButton.Default")
+				.FinishButtonStyle(FAppStyle::Get(), "FlatButton.Success")
+				.ButtonTextStyle(FAppStyle::Get(), "LargeText")
 				.CanFinish(true)
 				.FinishButtonText(LOCTEXT("FinishButtonText", "Close"))
 				.OnFinished_Lambda([&]()
@@ -99,7 +99,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					.Padding(0)
 					[
 						SNew(STextBlock)
-						.TextStyle( FEditorStyle::Get(), "NewClassDialog.PageTitle" )
+						.TextStyle( FAppStyle::Get(), "NewClassDialog.PageTitle" )
 						.Text(LOCTEXT("LinterSelectionTitle", "Linter Rule Set Selection"))
 					]
 					// Title spacer
@@ -146,7 +146,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					.Padding(0)
 					[
 						SNew(STextBlock)
-						.TextStyle( FEditorStyle::Get(), "NewClassDialog.PageTitle" )
+						.TextStyle( FAppStyle::Get(), "NewClassDialog.PageTitle" )
 						.Text(LOCTEXT("LinterReportTitle", "Lint Report"))
 					]
 					// Marketplace No Errors Required Text
@@ -187,7 +187,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					.Padding(0)
 					[
 						SNew(STextBlock)
-						.TextStyle( FEditorStyle::Get(), "NewClassDialog.PageTitle" )
+						.TextStyle( FAppStyle::Get(), "NewClassDialog.PageTitle" )
 						.Text(LOCTEXT("MarketplaceInfoTitle", "Marketplace Recommendations"))
 					]
 					// Title spacer
@@ -210,11 +210,11 @@ void SLintWizard::Construct(const FArguments& InArgs)
 							.AutoHeight()
 							[
 								SNew(SBorder)
-								.BorderImage(FEditorStyle::GetBrush("NoBorder"))
+								.BorderImage(FAppStyle::GetBrush("NoBorder"))
 								.Padding(PaddingAmount)
 								[
 									SNew(SBorder)
-									.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+									.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 									.Padding(PaddingAmount)
 									[
 										SNew(SHorizontalBox)
@@ -265,7 +265,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 									FARFilter Filter;
 									Filter.bRecursivePaths = true;
 									Filter.PackagePaths.Add("/Game");
-									Filter.ClassNames.Add("ObjectRedirector");
+									Filter.ClassPaths.Add(UObjectRedirector::StaticClass()->GetClassPathName());
 
 									// Query for a list of assets in the selected paths
 									TArray<FAssetData> AssetList;
@@ -276,7 +276,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 										TArray<FString> ObjectPaths;
 										for (const auto& Asset : AssetList)
 										{
-											ObjectPaths.Add(Asset.ObjectPath.ToString());
+											ObjectPaths.Add(Asset.GetObjectPathString());
 										}
 
 										ScopedSlowTask.EnterProgressFrame(0.25f, LOCTEXT("Linter.FixUpRedirects.LoadingRedirectors", "Loading redirectors..."));
@@ -317,12 +317,12 @@ void SLintWizard::Construct(const FArguments& InArgs)
 							.Padding(PaddingAmount)
 							[
 								SNew(SBorder)
-								.BorderImage(FEditorStyle::GetBrush("NoBorder"))
+								.BorderImage(FAppStyle::GetBrush("NoBorder"))
 								.Padding(PaddingAmount)
 								.Visibility_Lambda([&](){ return (MapAssetDataList.Num() > 0) ? EVisibility::SelfHitTestInvisible : EVisibility::Collapsed; })
 								[
 									SNew(SBorder)
-									.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+									.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 									.Padding(PaddingAmount)
 									[
 										SNew(SVerticalBox)
@@ -424,11 +424,11 @@ void SLintWizard::Construct(const FArguments& InArgs)
 							[
 								SNew(SBorder)
 								.Visibility(EVisibility::Collapsed)
-								.BorderImage(FEditorStyle::GetBrush("NoBorder"))
+								.BorderImage(FAppStyle::GetBrush("NoBorder"))
 								.Padding(PaddingAmount)
 								[
 									SNew(SBorder)
-									.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+									.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 									.Padding(PaddingAmount)
 									[
 										SNew(SVerticalBox)
@@ -517,7 +517,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 																	FString CommandLine = FString::Printf(TEXT("ZipProjectUp %s -project=\"%s\" -install=\"%s\""), UATFlags, *ProjectPath, *FinalFileName);
 
 																	IUATHelperModule::Get().CreateUatTask(CommandLine, PlatformName, LOCTEXT("ZipTaskName", "Zipping Up Project"),
-																		LOCTEXT("ZipTaskShortName", "Zip Project Task"), FEditorStyle::GetBrush(TEXT("MainFrame.CookContent")));
+																		LOCTEXT("ZipTaskShortName", "Zip Project Task"), FAppStyle::GetBrush(TEXT("MainFrame.CookContent")));
 																}
 
 																FGlobalTabmanager::Get()->TryInvokeTab(FName("LinterTab"))->RequestCloseTab();
@@ -546,7 +546,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 	FContentBrowserModule& ContentBrowserModule = FModuleManager::Get().LoadModuleChecked<FContentBrowserModule>("ContentBrowser");
 	TArray<FAssetData> AssetDatas;
 	FARFilter Filter;
-	Filter.ClassNames.Add(UWorld::StaticClass()->GetFName());
+	Filter.ClassPaths.Add(UWorld::StaticClass()->GetClassPathName());
 	Filter.bRecursivePaths = true;
 	Filter.PackagePaths.Add(TEXT("/Game"));
 	AssetRegistryModule.Get().GetAssets(Filter, AssetDatas);

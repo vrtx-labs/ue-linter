@@ -1,7 +1,7 @@
 #include "LintRuleSet.h"
 #include "LintRunner.h"
 
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Modules/ModuleManager.h"
 #include "HAL/RunnableThread.h"
 
@@ -79,7 +79,7 @@ TArray<FLintRuleViolation> ULintRuleSet::LintPath(TArray<FString> AssetPaths, FS
 		}
 		else
 		{
-			Threads.Push(FRunnableThread::Create(Runner, *FString::Printf(TEXT("FLintRunner - %s"), *Asset.ObjectPath.ToString()), 0, TPri_Normal));
+			Threads.Push(FRunnableThread::Create(Runner, *FString::Printf(TEXT("FLintRunner - %s"), *Asset.GetObjectPathString()), 0, TPri_Normal));
 			if (ParentScopedSlowTask != nullptr)
 			{
 				ParentScopedSlowTask->EnterProgressFrame(1.0f);

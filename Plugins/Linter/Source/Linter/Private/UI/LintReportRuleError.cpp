@@ -39,7 +39,7 @@ void SLintReportRuleError::Construct(const FArguments& Args)
 					FContentBrowserModule& ContentBrowserModule = FModuleManager::Get().LoadModuleChecked<FContentBrowserModule>("ContentBrowser");
 					FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
 					TArray<FAssetData> AssetDatas;
-					AssetDatas.Push(AssetRegistryModule.Get().GetAssetByObjectPath(RuleViolation.Get()->ViolatorAssetData.ObjectPath));
+					AssetDatas.Push(AssetRegistryModule.Get().GetAssetByObjectPath(RuleViolation.Get()->ViolatorAssetData.GetSoftObjectPath()));
 					ContentBrowserModule.Get().SyncBrowserToAssets(AssetDatas);
 				})
 			]

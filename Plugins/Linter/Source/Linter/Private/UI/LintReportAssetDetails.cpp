@@ -7,7 +7,7 @@
 #include "Widgets/Layout/SExpandableArea.h"
 #include "ContentBrowserModule.h"
 #include "IContentBrowserSingleton.h"
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Widgets/Input/SHyperlink.h"
 #include "Widgets/Layout/SSpacer.h"
 #include "IAssetTools.h"
@@ -60,11 +60,11 @@ void SLintReportAssetDetails::Construct(const FArguments& Args)
 	ChildSlot
 	[
 		SNew(SBorder)
-		.BorderImage(FEditorStyle::GetBrush("NoBorder"))
+		.BorderImage(FAppStyle::GetBrush("NoBorder"))
 		.Padding(PaddingAmount)
 		[
 			SNew(SBorder)
-			.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+			.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 			.Padding(PaddingAmount)
 			[
 				SNew(SVerticalBox)

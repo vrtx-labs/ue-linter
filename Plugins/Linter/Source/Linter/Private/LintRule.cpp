@@ -5,11 +5,11 @@
 #include "Materials/Material.h"
 #include "Kismet2/BlueprintEditorUtils.h"
 #include "Engine/Blueprint.h"
-#include "AssetData.h"
+#include "AssetRegistry/AssetData.h"
 #include "Modules/ModuleManager.h"
-#include "IAssetRegistry.h"
+#include "AssetRegistry/IAssetRegistry.h"
 #include "IAssetTools.h"
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "MaterialDomain.h"
 
 
@@ -239,7 +239,7 @@ bool FLintRuleViolation::PopulateAssetData()
 
 	if (Violator.IsValid())
 	{
-		ViolatorAssetData = AssetRegistry.GetAssetByObjectPath(FName(*Violator->GetPathName()));
+		ViolatorAssetData = AssetRegistry.GetAssetByObjectPath(FSoftObjectPath(Violator->GetPathName()));
 		return ViolatorAssetData.IsValid();
 	}
 

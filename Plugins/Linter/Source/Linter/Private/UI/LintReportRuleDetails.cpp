@@ -7,7 +7,7 @@
 #include "Widgets/Layout/SExpandableArea.h"
 #include "ContentBrowserModule.h"
 #include "IContentBrowserSingleton.h"
-#include "AssetRegistryModule.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Widgets/Input/SHyperlink.h"
 #include "Widgets/Layout/SSpacer.h"
 #include "IAssetTools.h"
@@ -60,7 +60,7 @@ void SLintReportRuleDetails::Construct(const FArguments& Args)
 	FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
 	IAssetRegistry& AssetRegistry = AssetRegistryModule.Get();
 
-	RuleAssetData = AssetRegistry.GetAssetByObjectPath(FName(*BrokenRule->GetPathName()), true);
+	RuleAssetData = AssetRegistry.GetAssetByObjectPath(FSoftObjectPath(BrokenRule->GetPathName()), true);
 	FText RuleAssetPath;
 	if (RuleAssetData.IsValid())
 	{
@@ -72,11 +72,11 @@ void SLintReportRuleDetails::Construct(const FArguments& Args)
 	ChildSlot
 	[
 		SNew(SBorder)
-		.BorderImage(FEditorStyle::GetBrush("NoBorder"))
+		.BorderImage(FAppStyle::GetBrush("NoBorder"))
 		.Padding(PaddingAmount)
 		[
 			SNew(SBorder)
-			.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+			.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
 			.Padding(PaddingAmount)
 			[
 				SNew(SVerticalBox)

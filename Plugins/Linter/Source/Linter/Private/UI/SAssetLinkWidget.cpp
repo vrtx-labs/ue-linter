@@ -28,7 +28,7 @@ void SAssetLinkWidget::Construct(const FArguments& Args)
 				FContentBrowserModule& ContentBrowserModule = FModuleManager::Get().LoadModuleChecked<FContentBrowserModule>("ContentBrowser");
 				FAssetRegistryModule& AssetRegistryModule = FModuleManager::LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry"));
 				TArray<FAssetData> AssetDatas;
-				AssetDatas.Push(AssetRegistryModule.Get().GetAssetByObjectPath(AssetData.Get().ObjectPath));
+				AssetDatas.Push(AssetRegistryModule.Get().GetAssetByObjectPath(AssetData.Get().GetSoftObjectPath()));
 				ContentBrowserModule.Get().SyncBrowserToAssets(AssetDatas);
 			})
 		]

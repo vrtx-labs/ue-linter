@@ -2,8 +2,8 @@
 
 #include "LinterCommandlet.h"
 #include "Editor.h"
-#include "AssetRegistryModule.h"
-#include "AssetData.h"
+#include "AssetRegistry/AssetRegistryModule.h"
+#include "AssetRegistry/AssetData.h"
 #include "Engine/ObjectLibrary.h"
 #include "Dom/JsonObject.h"
 #include "Dom/JsonValue.h"
@@ -56,7 +56,7 @@ int32 ULinterCommandlet::Main(const FString& InParams)
 		FLinterModule::TryToLoadAllLintRuleSets();
 
 		TArray<FAssetData> FoundRuleSets;
-		AssetRegistryModule.Get().GetAssetsByClass(ULintRuleSet::StaticClass()->GetFName(), FoundRuleSets, true);
+		AssetRegistryModule.Get().GetAssetsByClass(ULintRuleSet::StaticClass()->GetClassPathName(), FoundRuleSets, true);
 
 		for (const FAssetData& RuleSetData : FoundRuleSets)
 		{
@@ -128,7 +128,7 @@ int32 ULinterCommandlet::Main(const FString& InParams)
 				UniqueViolatorViolations[0].PopulateAssetData();
 				AssetData = UniqueViolatorViolations[0].ViolatorAssetData;
 				AssetJsonObject->SetStringField(TEXT("ViolatorAssetName"), AssetData.AssetName.ToString());
-				AssetJsonObject->SetStringField(TEXT("ViolatorAssetPath"), AssetData.ObjectPath.ToString());
+				AssetJsonObject->SetStringField(TEXT("ViolatorAssetPath"), AssetData.GetObjectPathString());
 				AssetJsonObject->SetStringField(TEXT("ViolatorFullName"), AssetData.GetFullName());
 				//@TODO: Thumbnail export?
 
