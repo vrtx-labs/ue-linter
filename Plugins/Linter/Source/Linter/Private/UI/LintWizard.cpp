@@ -79,10 +79,6 @@ void SLintWizard::Construct(const FArguments& InArgs)
 				SAssignNew(MainWizard, SWizard)
 				.ShowPageList(false)
 				.ShowCancelButton(false)
-				.ButtonStyle(FAppStyle::Get(), "FlatButton.Default")
-				.CancelButtonStyle(FAppStyle::Get(), "FlatButton.Default")
-				.FinishButtonStyle(FAppStyle::Get(), "FlatButton.Success")
-				.ButtonTextStyle(FAppStyle::Get(), "LargeText")
 				.CanFinish(true)
 				.FinishButtonText(LOCTEXT("FinishButtonText", "Close"))
 				.OnFinished_Lambda([&]()
@@ -99,13 +95,14 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					.Padding(0)
 					[
 						SNew(STextBlock)
-						.TextStyle( FAppStyle::Get(), "NewClassDialog.PageTitle" )
+						.Font(FAppStyle::Get().GetFontStyle("HeadingExtraSmall"))
 						.Text(LOCTEXT("LinterSelectionTitle", "Linter Rule Set Selection"))
+						.TransformPolicy(ETextTransformPolicy::ToUpper)
 					]
 					// Title spacer
 					+SVerticalBox::Slot()
 					.AutoHeight()
-					.Padding(0, 2, 0, 8)
+					.HAlign(HAlign_Center)
 					[
 						SNew(SSeparator)
 					]
@@ -146,8 +143,9 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					.Padding(0)
 					[
 						SNew(STextBlock)
-						.TextStyle( FAppStyle::Get(), "NewClassDialog.PageTitle" )
+						.Font(FAppStyle::Get().GetFontStyle("HeadingExtraSmall"))
 						.Text(LOCTEXT("LinterReportTitle", "Lint Report"))
+						.TransformPolicy(ETextTransformPolicy::ToUpper)
 					]
 					// Marketplace No Errors Required Text
 					+ SVerticalBox::Slot()
@@ -161,7 +159,7 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					// Title spacer
 					+SVerticalBox::Slot()
 					.AutoHeight()
-					.Padding(0, 2, 0, 8)
+					.HAlign(HAlign_Center)
 					[
 						SNew(SSeparator)
 					]
@@ -187,13 +185,14 @@ void SLintWizard::Construct(const FArguments& InArgs)
 					.Padding(0)
 					[
 						SNew(STextBlock)
-						.TextStyle( FAppStyle::Get(), "NewClassDialog.PageTitle" )
+						.Font(FAppStyle::Get().GetFontStyle("HeadingExtraSmall"))
 						.Text(LOCTEXT("MarketplaceInfoTitle", "Marketplace Recommendations"))
+						.TransformPolicy(ETextTransformPolicy::ToUpper)
 					]
 					// Title spacer
 					+SVerticalBox::Slot()
 					.AutoHeight()
-					.Padding(0, 2, 0, 8)
+					.HAlign(HAlign_Center)
 					[
 						SNew(SSeparator)
 					]
