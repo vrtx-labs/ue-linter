@@ -61,7 +61,12 @@ TArray<FLintRuleViolation> ULintRuleSet::LintPath(TArray<FString> AssetPaths, FS
 		check(Asset.IsValid());
 		UE_LOG(LogLinter, Verbose, TEXT("Creating Lint Thread for asset \"%s\"."), *Asset.AssetName.ToString());
 		UObject* Object = Asset.GetAsset();
-		check(Object != nullptr);
+		
+		//According to FAssetData.GetAsset documentation, this can return nullptr if the asset is a redirector, and it indeed happened
+		if (Object == nullptr)
+		{
+			continue;
+		}
 
 		FLintRunner* Runner = new FLintRunner(Object, this, &RuleViolations, ParentScopedSlowTask);
 		check(Runner != nullptr);
