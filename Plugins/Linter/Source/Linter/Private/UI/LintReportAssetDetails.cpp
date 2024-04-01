@@ -19,7 +19,7 @@
 #include "UI/LintReportAssetError.h"
 #include "LintRule.h"
 #include "AssetThumbnail.h"
-
+#include "UI/LintReportAssetErrorList.h"
 
 #define LOCTEXT_NAMESPACE "LintReport"
 
@@ -142,3 +142,5 @@ void SLintReportAssetDetails::Construct(const FArguments& Args)
 		]
 	];
 }
+
+#undef LOCTEXT_NAMESPACE

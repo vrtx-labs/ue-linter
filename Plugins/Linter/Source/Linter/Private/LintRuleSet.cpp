@@ -4,6 +4,7 @@
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "Modules/ModuleManager.h"
 #include "HAL/RunnableThread.h"
+#include "AnyObject_LinterDummyClass.h"
 
 ULintRuleSet::ULintRuleSet(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

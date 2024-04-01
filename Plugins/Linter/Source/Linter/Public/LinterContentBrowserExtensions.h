@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Linter.h"
 
 // Integrate Linter actions into the Content Browser
 class FLinterContentBrowserExtensions

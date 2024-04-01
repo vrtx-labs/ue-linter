@@ -24,8 +24,12 @@
 #include "LintRuleSet.h"
 #include "LinterSettings.h"
 #include "UI/SAssetLinkWidget.h"
+#include "AssetToolsModule.h"
+#include "IDesktopPlatform.h"
+#include "DesktopPlatformModule.h"
+#include "ContentBrowserModule.h"
 
-
+#define LOCTEXT_NAMESPACE "LintWizard"
 
 BEGIN_SLATE_FUNCTION_BUILD_OPTIMIZATION
 void SLintWizard::Construct(const FArguments& InArgs)
@@ -648,3 +652,5 @@ bool SLintWizard::LoadAssetsIfNeeded(const TArray<FString>& ObjectPaths, TArray<
 
 	return true;
 }
+
+#undef LOCTEXT_NAMESPACE
